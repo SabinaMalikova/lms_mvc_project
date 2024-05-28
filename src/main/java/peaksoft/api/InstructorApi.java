@@ -23,13 +23,6 @@ public class InstructorApi {
         return "allInstructors";
     }
 
-    @GetMapping("/{id}/getInstructorsByCompanyId")
-    public String getAllInstructorsByCompanyId(Model model, @PathVariable("id") Long comId){
-        model.addAttribute("companyId", comId);
-        model.addAttribute("companiesInstructors", instructorService.getAllInstructorsByCompanyId(comId));
-        return "allCompaniesInstructors";
-    }
-
     @GetMapping("/{id}/getInstructorsByCourseId")
     public String getAllInstructorsByCourseId(Model model, @PathVariable("id") Long courseId) {
         model.addAttribute("courseInstructors", instructorService.getAllInstructorsByCourseId(courseId));

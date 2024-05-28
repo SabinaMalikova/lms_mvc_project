@@ -29,9 +29,6 @@
                 <div class="button-group">
                     <a th:href="@{/courses/new/{companyId}(companyId=${company.id})}" class="btn btn-primary">Create Course</a>
                     <a th:href="@{/courses/{id}/getCoursesByCompanyId(id=${company.id})}" class="btn btn-primary">Get all courses</a>
-                    <form th:action="@{/instructors/{companyId}/getInstructorsByCompanyId(companyId=${company.id})}" method="get">
-                        <button type="submit" class="btn btn-primary">Get all instructors</button>
-                    </form>
                     <form th:action="@{/groups/new/{companyId}(companyId=${company.id})}" method="get">
                         <button type="submit" class="btn btn-primary">Create new group</button>
                     </form>

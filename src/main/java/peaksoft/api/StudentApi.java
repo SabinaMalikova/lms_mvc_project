@@ -40,7 +40,7 @@ public class StudentApi {
         return "redirect:/students/{id}/getStudentsByCompanyId";
     }
 
-    @GetMapping("/students/{id}/delete")
+    @PostMapping("/students/{id}/delete")
     public String deleteStudent(@PathVariable("id") Long studentId) {
         studentService.deleteStudentById(studentId);
         return "redirect:/students";

@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import peaksoft.entity.Course;
+import peaksoft.entity.Group;
 import peaksoft.entity.Student;
 import peaksoft.repository.StudentRepo;
 
@@ -70,13 +71,27 @@ public class StudentRepoImpl implements StudentRepo {
     @Override
     public void deleteStudentById(Long id) {
         try {
+            // Получаем студента по его идентификатору
             Student student = entityManager.find(Student.class, id);
-            List<Course> courses = student.getGroup().getCourses();
 
-        }catch (Exception e){
+            // Если студент найден
+            if (student != null) {
+                // Получаем группу студента
+                Group group = student.getGroup();
+                // Если у студента есть группа
+                if (group != null) {
+                    // Убираем связь студента с группой
+                    group.getStudents().remove(student);
+                    student.setGroup(null);
+                }
+                entityManager.remove(student);
+            }
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
+
+
 
     @Override
     public void assignStudentToGroup(Long studentId, Long groupId) {
