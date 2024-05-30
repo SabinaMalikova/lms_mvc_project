@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import peaksoft.entity.Company;
 import peaksoft.entity.Course;
 import peaksoft.entity.Instructor;
+
 import peaksoft.repository.InstructorRepo;
 
 import java.util.List;
@@ -65,7 +66,12 @@ public class InstructorRepoImpl implements InstructorRepo {
     @Override
     public void deleteInstructorById(Long id) {
         try {
-            entityManager.remove(entityManager.find(Instructor.class,id));
+            Instructor instructor = entityManager.find(Instructor.class, id);
+            for (Company company : instructor.getCompanies()) {
+                company.getInstructors().remove(instructor);
+            }
+            instructor.getCompanies().clear();
+            entityManager.remove(instructor);
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -98,13 +104,16 @@ public class InstructorRepoImpl implements InstructorRepo {
             Company company = course.getCompany();
             if (company != null) {
                 instructor.getCompanies().add(company);
-            }
 
+                if (!company.getInstructors().contains(instructor)) {
+                    company.getInstructors().add(instructor);
+                }
+
+            }
             entityManager.merge(instructor);
             entityManager.merge(course);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
-
 }

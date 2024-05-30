@@ -47,7 +47,6 @@ public class GroupApi {
 
     @PostMapping("/save")
     public String saveGroup(@ModelAttribute("newGroup") Group group, @RequestParam Long companyId) {
-        // Ваш код сохранения группы с учетом companyId
         groupService.saveGroup(group);
         return "redirect:/groups/getAll/{companyId}";
     }
